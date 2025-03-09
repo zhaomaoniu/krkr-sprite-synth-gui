@@ -1,0 +1,15 @@
+[project]
+name = "krkr-sprite-synth-gui"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "zhaomaoniu", email = "2667292003@qq.com"},
+]
+dependencies = ["PyQt6>=6.7.1", "krkr-sprite-synth>=0.2.0"]
+requires-python = ">=3.8"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = false
