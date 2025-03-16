@@ -1,6 +1,7 @@
+from pathlib import Path
 from typing import Optional
-from PyQt6.QtWidgets import QComboBox
 from krkr_sprite_synth import SpriteSynth
+from PyQt6.QtWidgets import QComboBox, QLabel
 
 from app.views.image_view import ImageViewer
 
@@ -21,6 +22,8 @@ class MainController:
         self.dress_cb: Optional[QComboBox] = None
         self.face_cb: Optional[QComboBox] = None
         self.pose_cb: Optional[QComboBox] = None
+
+        self.save_status: Optional[QLabel] = None
 
         self.image_viewer: Optional[ImageViewer] = None
 
@@ -141,3 +144,21 @@ class MainController:
 
         result = self.sprite_synth.draw(dress=dress, face=face, pose=pose)
         self.image_viewer.set_image(result)
+
+    def on_save_clicked(self):
+        """处理保存事件"""
+        if (
+            self.sprite_synth is None
+            or self.image_viewer is None
+            or self.image_viewer.pixmap.isNull()
+        ):
+            self.save_status.setText("请先选择角色信息")
+            return
+
+        file_name = Path(self.sprite_synth.a_info_path).name
+        character_name = file_name.split("a")[0]
+
+        save_path = f"{character_name}_{self.dress_cb.currentText()}_{self.face_cb.currentText()}_{self.pose_cb.currentText()}.png"
+
+        self.image_viewer.pixmap.save(save_path, "PNG")
+        self.save_status.setText(f"保存成功：{save_path}")

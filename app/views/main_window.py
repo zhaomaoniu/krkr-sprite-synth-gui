@@ -3,6 +3,7 @@ from PyQt6.QtWidgets import (
     QWidget,
     QLineEdit,
     QComboBox,
+    QPushButton,
     QMainWindow,
     QGridLayout,
 )
@@ -86,10 +87,16 @@ class MainWindow(QMainWindow):
         label_pose = QLabel("Pose")
         combo_box_pose = QComboBox()
         combo_box_pose.currentIndexChanged.connect(self.controller.on_pose_selected)
+        save_button = QPushButton("Save")
+        save_button.clicked.connect(self.controller.on_save_clicked)
+        save_status = QLabel("")
+        save_status.setFixedSize(200, 30)
 
         self.controller.dress_cb = combo_box_dress
         self.controller.face_cb = combo_box_face
         self.controller.pose_cb = combo_box_pose
+
+        self.controller.save_status = save_status
 
         image_viewer = ImageViewer()
         self.controller.image_viewer = image_viewer
@@ -112,4 +119,6 @@ class MainWindow(QMainWindow):
         layout.addWidget(combo_box_face, 7, 1)
         layout.addWidget(label_pose, 8, 0)
         layout.addWidget(combo_box_pose, 8, 1)
-        layout.addWidget(image_viewer, 0, 2, 9, 1)
+        layout.addWidget(save_button, 9, 0)
+        layout.addWidget(save_status, 9, 1)
+        layout.addWidget(image_viewer, 0, 2, 10, 1)
